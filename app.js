@@ -74,11 +74,4 @@
   $$('.case-btn').forEach(btn=>btn.addEventListener('click',()=>openCase(btn)));
   const closeDialog=()=>{if(dialog.open)dialog.close();else dialog.removeAttribute('open')};dialogClose.addEventListener('click',closeDialog);dialog.addEventListener('click',e=>{if(e.target===dialog)closeDialog()});dialog.addEventListener('close',()=>lastFocus?.focus());
 
-  /* Newsletter: static/local-only but genuinely functional */
-  const form=$('#newsletterForm'),email=$('#newsletterEmail'),consent=$('#newsletterConsent'),status=$('#newsletterStatus'),clearBtn=$('#newsletterClear'),submitBtn=$('#newsletterSubmit');
-  const storageKey='roony-b2b-ai-newsletter-interest';
-  const syncSignup=()=>{const saved=localStorage.getItem(storageKey);if(saved){try{const data=JSON.parse(saved);email.value=data.email||'';consent.checked=true;status.textContent='Lokal vorgemerkt: '+(data.email||'E-Mail gespeichert')+'. Es wurden keine Daten übertragen.';status.className='signup-status success';clearBtn.hidden=false;submitBtn.textContent='Vormerkung aktualisieren'}catch{localStorage.removeItem(storageKey)}}};
-  syncSignup();
-  form.addEventListener('submit',e=>{e.preventDefault();status.className='signup-status';const value=email.value.trim();if(!email.checkValidity()){status.textContent='Bitte eine gültige E-Mail-Adresse eingeben.';status.classList.add('error');email.focus();return}if(!consent.checked){status.textContent='Bitte die lokale Speicher-Hinweisbox bestätigen.';status.classList.add('error');consent.focus();return}localStorage.setItem(storageKey,JSON.stringify({email:value,savedAt:new Date().toISOString()}));status.textContent='Lokal vorgemerkt. Deine Adresse bleibt nur auf diesem Gerät; es wurde nichts übertragen.';status.classList.add('success');clearBtn.hidden=false;submitBtn.textContent='Vormerkung aktualisieren';showToast('Newsletter-Interesse lokal gespeichert.')});
-  clearBtn.addEventListener('click',()=>{localStorage.removeItem(storageKey);form.reset();clearBtn.hidden=true;submitBtn.textContent='Lokal vormerken';status.className='signup-status';status.textContent='Lokale Vormerkung gelöscht. Es wurden keine Daten übertragen.';showToast('Lokale Vormerkung gelöscht.')});
 })();
