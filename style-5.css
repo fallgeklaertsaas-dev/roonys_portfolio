@@ -1,0 +1,15 @@
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}.reveal.in-view{opacity:1;transform:none}.reveal[data-delay="1"]{transition-delay:.08s}.reveal[data-delay="2"]{transition-delay:.16s}.reveal[data-delay="3"]{transition-delay:.24s}
+
+@media(max-width:1060px){
+  .navlinks,.status-pill{display:none}.menu-btn{display:grid}
+  .hero-layout,.profile-shell,.newsletter-grid,.contact-card{grid-template-columns:1fr}.hero-panel{max-width:680px}.hero-copy::before{display:none}
+  .project,.project.featured{grid-column:span 6}.cap-grid{grid-template-columns:1fr 1fr}.process{grid-template-columns:1fr 1fr}.direction{grid-template-columns:1fr 1fr}.section-head{grid-template-columns:1fr;gap:18px}
+}
+@media(max-width:720px){
+  :root{--nav-h:66px}.wrap{width:min(var(--max),calc(100% - 28px))}.site-header{top:8px;padding:0 6px}.nav-shell{width:100%;padding:0 12px;border-radius:17px}.brand-copy span{display:none}
+  .hero{padding:138px 0 72px;min-height:auto}h1{font-size:clamp(44px,15vw,68px);letter-spacing:-.055em}.lead{font-size:17px}.hero-metrics{grid-template-columns:1fr}.hero-panel{padding:18px}.profile-row{grid-template-columns:76px 1fr}
+  .section{padding:82px 0}.section.compact{padding:58px 0}.work-grid{grid-template-columns:1fr}.project,.project.featured{grid-column:auto;min-height:auto}.project-meta{grid-template-columns:1fr 1fr}.cap-grid,.depth-shell,.process,.direction{grid-template-columns:1fr}.road-row{grid-template-columns:1fr;gap:7px}.road-state{text-align:left}.newsletter{padding:28px}.contact-card{padding:28px}.dialog-grid{grid-template-columns:1fr}.dialog-inner{padding:20px}.dialog-head h3{font-size:28px}.footer-row{align-items:flex-start;flex-direction:column}.pointer-glow{display:none}.mobile-menu{top:84px}.marquee-set{gap:23px}.project:hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}.marquee{animation:none}.pointer-glow{display:none}
+}
