@@ -12,3 +12,23 @@ dialog{width:min(860px,calc(100% - 30px));max-height:min(760px,calc(100vh - 34px
 .toast{position:fixed;left:50%;bottom:22px;z-index:200;transform:translate(-50%,18px);opacity:0;pointer-events:none;padding:10px 13px;border:1px solid var(--line);border-radius:12px;background:#111722;color:#dce4ee;font-size:11px;box-shadow:var(--shadow);transition:opacity .2s ease,transform .2s ease}.toast.show{opacity:1;transform:translate(-50%,0)}
 
 /* Reveal */
+
+
+/* Homepage newsletter teaser */
+.newsletter-home-section{padding:8px 0 38px}
+.newsletter-home{display:flex;align-items:center;justify-content:space-between;gap:34px;padding:24px 28px;border-color:rgba(140,147,255,.18);background:linear-gradient(120deg,rgba(140,147,255,.075),rgba(17,23,34,.72) 48%,rgba(87,216,255,.045))}
+.newsletter-home-copy{max-width:760px}
+.newsletter-home h3{font-size:clamp(22px,3vw,34px);line-height:1.08;margin:9px 0 8px;letter-spacing:-.035em}
+.newsletter-home p{margin:0;color:var(--muted);font-size:12px;line-height:1.65}
+.newsletter-home-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:flex-end;flex:0 0 auto}
+.newsletter-live{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-3);font-weight:760}
+.newsletter-live i{display:block;width:7px;height:7px;border-radius:50%;background:var(--accent-3);box-shadow:0 0 0 5px rgba(105,232,183,.07)}
+.newsletter-subscribe-card{display:flex;flex-direction:column;align-items:flex-start}
+.newsletter-subscribe-card .newsletter-live{margin-bottom:13px}
+.newsletter-subscribe-btn{width:100%;margin-top:2px}
+@media(max-width:720px){
+  .newsletter-home-section{padding:0 0 28px}
+  .newsletter-home{align-items:flex-start;flex-direction:column;padding:20px}
+  .newsletter-home-actions{width:100%;justify-content:flex-start}
+  .newsletter-home-actions .btn{width:100%}
+}
