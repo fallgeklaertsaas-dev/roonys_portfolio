@@ -20,7 +20,7 @@
   "alumniOf":{"@type":"CollegeOrUniversity","name":"Otto-von-Guericke-Universität Magdeburg"},
   "knowsAbout":["Wirtschaftsinformatik","Digitalisierung","Prozessautomatisierung","SaaS","Cloud Computing","IT Security","Artificial Intelligence"]
 }</script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="style-reference.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -33,7 +33,7 @@
   <div class="nav-shell">
     <a class="brand" href="#top" aria-label="Zur Startseite">
       <span class="brand-mark">RH</span>
-      <span class="brand-copy"><strong>Roony Hussein</strong><span>Business Informatics · Product & Tech</span></span>
+      <span class="brand-copy"><strong>Roony Hussein</strong><span>Software · Systems · Business</span></span>
     </a>
     <nav class="navlinks" aria-label="Hauptnavigation">
       <a href="#work">Projekte</a>
@@ -44,7 +44,7 @@
       <a href="#contact">Kontakt</a>
     </nav>
     <div class="nav-actions">
-      <div class="status-pill"><i class="status-dot"></i> Portfolio · in Entwicklung</div>
+      <a class="nav-subscribe" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer" aria-label="The Fair Business Newsletter abonnieren">Newsletter <span aria-hidden="true">↗</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Navigation öffnen">☰</button>
     </div>
   </div>
@@ -57,10 +57,10 @@
 <section class="hero" id="top">
   <div class="wrap hero-layout">
     <div class="hero-copy reveal in-view">
-      <div class="eyebrow">Wirtschaftsinformatik · SaaS · Future Tech</div>
+      <div class="eyebrow">Wirtschaftsinformatik · Builder · Future Tech</div>
       <div class="hero-kicker"><span class="tag">Digitalisierung</span><span class="tag">Prozessautomatisierung</span><span class="tag">Cloud</span><span class="tag">IT Security</span><span class="tag">AI Integration</span></div>
-      <h1><span class="gradient-text">Digitale Systeme.</span><br>Weniger Reibung.<br>Mehr Wirkung.</h1>
-      <p class="lead">Ich verbinde Wirtschaftsinformatik, Produktdenken und Softwareentwicklung, um Geschäftsprozesse verständlicher, sicherer und automatisierbarer zu machen. Dieses Portfolio zeigt nicht nur Ergebnisse, sondern auch Entscheidungen, Trade-offs und Lernfortschritt.</p>
+      <h1>Ich entwickle Software,<br><span class="gradient-text">die Arbeit vereinfacht.</span></h1>
+      <p class="lead">Von SaaS für Fall- und Dokumentenprozesse bis zu Tools für den Studienalltag: Ich übersetze praktische Probleme in klare digitale Produkte. Hier zeige ich, <strong>was ich baue</strong>, wie ich entscheide und was ich dabei lerne.</p>
       <div class="btn-row">
         <a class="btn primary" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter abonnieren ↗</a>
         <a class="btn" href="#work">Ausgewählte Projekte <span>↓</span></a>
@@ -73,17 +73,24 @@
         <div class="metric"><strong>B2B</strong><span>langfristiger Produkt- & Consulting-Fokus</span></div>
       </div>
     </div>
-    <aside class="hero-panel reveal in-view" data-delay="1" aria-label="Profilübersicht">
-      <div class="panel-top"><div><span>Public profile snapshot</span><strong>Roony Hussein</strong></div><div class="signal">↗</div></div>
-      <div class="profile-list">
-        <div class="profile-row"><b>Headline</b><span>Wirtschaftsinformatik Student · Digitalisierung · Prozessautomatisierung · Cloud · IT Security · SaaS</span></div>
-        <div class="profile-row"><b>Studium</b><span>Otto-von-Guericke-Universität Magdeburg · 2026–2029</span></div>
-        <div class="profile-row"><b>Praxis</b><span>Kanzlei · Halle (Saale)</span></div>
-        <div class="profile-row"><b>Portfolio</b><span>SaaS, iOS, B2B-Workflows, AI-Integration</span></div>
-        <div class="profile-row"><b>Next</b><span>AWS · Security Engineering · Enterprise Integration</span></div>
+    <aside class="hero-panel hero-product-panel reveal in-view" data-delay="1" aria-label="Aktuelle Projekte">
+      <div class="panel-top"><div><span>Currently building / 2026</span><strong>Work in progress.</strong></div><div class="signal" aria-hidden="true">↗</div></div>
+      <div class="product-pulse" aria-hidden="true"><span class="pulse-orbit pulse-orbit-a"></span><span class="pulse-orbit pulse-orbit-b"></span><span class="pulse-core">RH<span>BUILD</span></span><span class="pulse-node pulse-node-a">API</span><span class="pulse-node pulse-node-b">AI</span><span class="pulse-node pulse-node-c">UX</span></div>
+      <div class="build-list">
+        <a href="#work" class="build-item"><span class="build-symbol">A</span><span class="build-description"><strong>AutPilot</strong><small>Legal Tech · SaaS</small></span><span class="build-arrow">↗</span></a>
+        <a href="#work" class="build-item"><span class="build-symbol">L</span><span class="build-description"><strong>Life-OS</strong><small>Productivity · Web</small></span><span class="build-arrow">↗</span></a>
+        <a href="#work" class="build-item"><span class="build-symbol">U</span><span class="build-description"><strong>Unisation</strong><small>Student Tools · iOS</small></span><span class="build-arrow">↗</span></a>
       </div>
-      <a class="btn" href="#profile" style="margin-top:12px">Profil & Werdegang ansehen</a>
+      <p class="panel-footnote">Prototypen & Produktarbeit – keine vorgetäuschten Launches.</p>
     </aside>
+  </div>
+</section>
+
+<section class="identity-strip" aria-label="Über mich in Kürze">
+  <div class="wrap identity-grid">
+    <span class="identity-label"><span class="identity-marker" aria-hidden="true"></span> STUDENT & BUILDER</span>
+    <p>Ich studiere <strong>Wirtschaftsinformatik an der OVGU Magdeburg</strong> und entwickle parallel SaaS- und App-Projekte. Mein Schwerpunkt: die Verbindung von Software, Prozessen und Business.</p>
+    <a href="#profile" class="identity-link">Mehr über mich <span aria-hidden="true">↗</span></a>
   </div>
 </section>
 
@@ -106,10 +113,13 @@
 <div class="marquee-wrap" aria-hidden="true"><div class="marquee"><div class="marquee-set"><span>Next.js</span><i></i><span>TypeScript</span><i></i><span>Supabase</span><i></i><span>SwiftUI</span><i></i><span>FastAPI</span><i></i><span>Cloud</span><i></i><span>Security</span><i></i><span>AI Integration</span><i></i><span>B2B SaaS</span><i></i></div><div class="marquee-set"><span>Next.js</span><i></i><span>TypeScript</span><i></i><span>Supabase</span><i></i><span>SwiftUI</span><i></i><span>FastAPI</span><i></i><span>Cloud</span><i></i><span>Security</span><i></i><span>AI Integration</span><i></i><span>B2B SaaS</span><i></i></div></div></div>
 
 <section class="section" id="work"><div class="wrap">
-  <div class="section-head reveal"><div><span class="eyebrow">01 · Selected Work</span><h2>Proof over claims.</h2></div><p class="section-copy">Drei Projekte, drei unterschiedliche Problemräume. Entscheidend ist nicht die Anzahl, sondern ob Problem, Rolle, Architektur und Lernfortschritt nachvollziehbar werden.</p></div>
+  <div class="section-head reveal"><div><span class="eyebrow">01 · Selected Work</span><h2>Was ich baue.</h2></div><p class="section-copy">Drei Produkte aus unterschiedlichen Bereichen. Jede Case Study erklärt die Problemstellung, meine Rolle, die technische Herangehensweise und den aktuellen Entwicklungsstand.</p></div>
   <div class="work-grid">
     <article class="card project featured reveal" data-spotlight>
       <div class="project-head"><span class="project-no">01 / 03</span><span class="project-status">Active prototype</span></div>
+      <div class="project-visual preview-autpilot" aria-hidden="true">
+        <div class="preview-window"><div class="preview-bar"><i></i><i></i><i></i><span>Case workspace</span></div><div class="preview-columns"><div class="preview-sidebar"><b>AP</b><span></span><span></span><span></span></div><div class="preview-main"><div class="preview-h-line wide"></div><div class="preview-cards"><em><b>Case A</b><i></i></em><em><b>Document</b><i></i></em></div><div class="preview-h-line"></div><div class="preview-h-line short"></div></div></div></div>
+      </div>
       <h3>AutPilot</h3><p>Legal-Tech-SaaS für strukturierte Fall-, Dokumenten- und Kollaborationsworkflows zwischen Kanzleien und Kfz-Sachverständigen. Schwerpunkt: sichere Datenflüsse, weniger Medienbrüche und belastbare Automatisierung.</p>
       <div class="project-tags"><span class="tag">Next.js</span><span class="tag">Supabase</span><span class="tag">FastAPI</span><span class="tag">RLS / Auth</span><span class="tag">Legal Tech</span></div>
       <div class="project-meta"><div><b>Problem</b><span>Fragmentierte Fall- und Dokumentenprozesse</span></div><div><b>Rolle</b><span>Product · Architecture · Full-stack</span></div></div>
@@ -117,6 +127,9 @@
     </article>
     <article class="card project reveal" data-delay="1" data-spotlight>
       <div class="project-head"><span class="project-no">02 / 03</span><span class="project-status">Productivity platform</span></div>
+      <div class="project-visual preview-lifeos" aria-hidden="true">
+        <div class="preview-window"><div class="preview-bar"><i></i><i></i><i></i><span>Today · Life-OS</span></div><div class="preview-life"><div class="preview-calendar"><b>MON</b><strong>12</strong></div><div class="preview-tasks"><span><i></i><b></b></span><span><i></i><b></b></span><span><i></i><b></b></span><div class="preview-progress-mini"></div></div></div></div>
+      </div>
       <h3>Life-OS</h3><p>Eine zentrale Web-App für Studium, Planung, Aufgaben, Gewohnheiten und Notizen. Ziel: weniger Kontextwechsel und eine konsistente Datenstruktur für persönliche Organisation.</p>
       <div class="project-tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Supabase</span><span class="tag">Sliplane</span><span class="tag">PWA</span></div>
       <div class="project-meta"><div><b>Problem</b><span>Zu viele getrennte Tools</span></div><div><b>Rolle</b><span>Product · UX · Implementation</span></div></div>
@@ -124,6 +137,9 @@
     </article>
     <article class="card project reveal" data-delay="2" data-spotlight>
       <div class="project-head"><span class="project-no">03 / 03</span><span class="project-status">Local-first iOS</span></div>
+      <div class="project-visual preview-unisation" aria-hidden="true">
+        <div class="preview-phone"><div class="preview-island"></div><div class="preview-phone-title">Semester</div><div class="preview-ring"><span>64<small>%</small></span></div><div class="preview-phone-rows"><i></i><i></i><i></i></div></div>
+      </div>
       <h3>Unisation</h3><p>Native iOS-App für Studierende mit Planner, Deadlines, Modulen, Study Timer, Work-Tracking und transparentem, formelbasiertem Fortschritt. AI bleibt bewusst ein späterer Layer.</p>
       <div class="project-tags"><span class="tag">Swift</span><span class="tag">SwiftUI</span><span class="tag">iOS</span><span class="tag">Local-first</span><span class="tag">Product UX</span></div>
       <div class="project-meta"><div><b>Problem</b><span>Verteilte Studienplanung</span></div><div><b>Rolle</b><span>Native iOS · Product Design</span></div></div>
@@ -203,11 +219,22 @@
   </div>
 </div></section>
 
+
+<section class="section insights-section" id="insights"><div class="wrap">
+  <div class="section-head reveal"><div><span class="eyebrow">06 · Ideas & Writing</span><h2>Gedanken aus der Praxis.</h2></div><p class="section-copy">Technologie wird erst interessant, wenn sie ein echtes Problem löst. Diese Themen vertiefe ich im Newsletter <strong>The Fair Business</strong> – für Entscheider und technische Praktiker.</p></div>
+  <div class="insights-grid">
+    <article class="insight-card reveal" data-delay="1"><span class="insight-number">01 / AUTOMATION</span><span class="insight-glyph" aria-hidden="true">↗</span><h3>KI ist kein Prozess.</h3><p>Warum ein brauchbarer Workflow wichtiger ist als ein gutes Prompt – von Datenquellen bis menschlicher Freigabe.</p><a href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">The Fair Business lesen <span>↗</span></a></article>
+    <article class="insight-card reveal" data-delay="2"><span class="insight-number">02 / INTEGRATION</span><span class="insight-glyph" aria-hidden="true">⌘</span><h3>AI trifft bestehende Systeme.</h3><p>APIs, Berechtigungen, Datenqualität: Was KI-Integration in B2B-Prozessen tatsächlich anspruchsvoll macht.</p><a href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Zum Newsletter <span>↗</span></a></article>
+    <article class="insight-card reveal" data-delay="3"><span class="insight-number">03 / SECURITY</span><span class="insight-glyph" aria-hidden="true">◈</span><h3>Automatisieren, aber kontrolliert.</h3><p>Wie Rollen, Auditierbarkeit und klare Systemgrenzen aus Demos belastbare Anwendungen machen.</p><a href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Zum Newsletter <span>↗</span></a></article>
+  </div>
+  <p class="insights-note">Themenvorschau · keine als veröffentlicht ausgegebenen Artikel.</p>
+</div></section>
+
 <section class="section" id="newsletter"><div class="wrap">
   <div class="newsletter reveal">
     <div class="newsletter-grid">
       <div>
-        <span class="eyebrow">06 · The Fair Business · Newsletter</span>
+        <span class="eyebrow">07 · The Fair Business · Newsletter</span>
         <h2>KI im B2B. Zwischen Hype und echter Wirkung.</h2>
         <p class="section-copy">The Fair Business fokussiert sich auf den praktischen Einsatz von KI in Unternehmen: sinnvolle Integrationen, Prozessautomatisierung, sichere Workflows, Business Value und die Frage, wann klassische Software die bessere Lösung bleibt.</p>
         <div class="topics"><span>KI für B2B</span><span>AI Integration</span><span>Prozessautomatisierung</span><span>Use-of-AI Tipps</span><span>Workflow Patterns</span><span>Security & Governance</span><span>SaaS Lessons Learned</span></div>
@@ -229,7 +256,7 @@
 
 <section class="section" id="contact"><div class="wrap">
   <div class="card contact-card reveal">
-    <div><span class="eyebrow">07 · Contact</span><h2>Für Austausch, Projekte und Kooperationen.</h2><p>Für fachlichen Austausch, B2B-Projekte, Praktika oder Kooperationen ist LinkedIn derzeit der verifizierte öffentliche Kontaktkanal. Weitere Kontaktdaten werden erst ergänzt, wenn sie bewusst öffentlich verfügbar sein sollen.</p><div class="btn-row"><a class="btn primary" href="https://www.linkedin.com/in/roony-hussein-555209369" target="_blank" rel="noopener noreferrer">Auf LinkedIn vernetzen ↗</a><a class="btn" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter abonnieren ↗</a><button class="btn" id="copyLinkedInContact" type="button">LinkedIn-Link kopieren</button></div></div>
+    <div><span class="eyebrow">08 · Contact</span><h2>Für Austausch, Projekte und Kooperationen.</h2><p>Für fachlichen Austausch, B2B-Projekte, Praktika oder Kooperationen ist LinkedIn derzeit der verifizierte öffentliche Kontaktkanal. Weitere Kontaktdaten werden erst ergänzt, wenn sie bewusst öffentlich verfügbar sein sollen.</p><div class="btn-row"><a class="btn primary" href="https://www.linkedin.com/in/roony-hussein-555209369" target="_blank" rel="noopener noreferrer">Auf LinkedIn vernetzen ↗</a><a class="btn" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter abonnieren ↗</a><button class="btn" id="copyLinkedInContact" type="button">LinkedIn-Link kopieren</button></div></div>
     <div class="contact-meta"><div class="contact-line"><span>Profil</span><b>Wirtschaftsinformatik · Product & Tech</b></div><div class="contact-line"><span>Fokus</span><b>Digitalisierung · SaaS · AI Integration</b></div><div class="contact-line"><span>Vertiefung</span><b>Cloud · IT Security · Enterprise Tech</b></div><div class="contact-line"><span>Kontakt</span><b>LinkedIn</b></div></div>
   </div>
 </div></section>
