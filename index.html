@@ -17,7 +17,7 @@
 <script>
 (()=>{document.documentElement.classList.add('js','locked');window.__portfolioFailsafe=setTimeout(()=>{document.documentElement.classList.remove('locked');document.documentElement.classList.add('instant');document.querySelectorAll('[data-item]').forEach(el=>el.classList.add('built'));document.getElementById('boot')?.classList.add('off');document.getElementById('stage')?.setAttribute('hidden','');},6500)})();
 </script>
-<link rel="stylesheet" href="style.css?v=20261121-polish2">
+<link rel="stylesheet" href="style.css?v=20261121-polish3">
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"Person",
@@ -223,14 +223,14 @@
   <div class="swarm-stage" id="swarmStage" aria-hidden="true"></div>
   <div data-block data-finale>
     <span class="kicker" data-item="text">06 / CONTACT</span>
-    <h2 class="h" data-item="text">Etwas zu bauen?</h2>
+    <h2 class="h" data-item="text">Lass uns etwas Sinnvolles bauen.</h2>
     <p class="sub" data-item="text">Für fachlichen Austausch, B2B-Projekte, Praktika oder Kooperationen ist LinkedIn aktuell mein öffentlicher Kontaktkanal.</p>
     <div class="cta" data-item="box">
       <a class="btn pri" href="https://www.linkedin.com/in/roony-hussein-555209369" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
       <a class="btn" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter ↗</a>
       <a class="btn" href="https://github.com/fallgeklaertsaas-dev/roonys_portfolio" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     </div>
-    <p class="foot" data-item="text">Diese Seite baut sich live auf. <kbd>R</kbd> = Neustart · <kbd>A</kbd> = Auto · <kbd>1/2</kbd> = Tempo · <kbd>M</kbd> = Sound.</p>
+    <p class="foot" data-item="text">Live-Build: <kbd>R</kbd> Replay · <kbd>A</kbd> Auto · <kbd>S</kbd> sofort anzeigen · <kbd>1/2</kbd> Geschwindigkeit · <kbd>M</kbd> Sound.</p>
   </div>
 </section>
 
@@ -252,21 +252,27 @@
 <div class="scan" id="scan" aria-hidden="true"></div>
 
 <div class="boot" id="boot">
-  <div class="chip">RH</div>
-  <p id="hint">Build-System wird initialisiert…</p>
+  <div class="boot-card">
+    <div class="chip" aria-hidden="true">RH</div>
+    <div class="boot-copy">
+      <strong>Portfolio wird aufgebaut</strong>
+      <p id="hint" role="status" aria-live="polite">Build-System wird initialisiert…</p>
+    </div>
+    <button class="boot-skip" id="bootSkip" type="button">Sofort anzeigen <span aria-hidden="true">→</span></button>
+  </div>
 </div>
 
 <div class="hud" id="hud" aria-label="Build controls">
   <span class="avs" id="avs"></span>
   <span class="hide-s"><span id="nAgents">9</span> Agenten</span>
-  <span><span id="nDone">0</span> / <span id="nAll">0</span> Layer</span>
+  <span class="layer-count"><span id="nDone">0</span> / <span id="nAll">0</span> Layer</span>
   <span class="bar hide-s" id="progressTrack" role="progressbar" aria-label="Build-Fortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></span>
-  <span class="st" id="st" role="status" aria-live="polite">Ready</span>
-  <button class="go" id="bTour" type="button" title="Start / Pause (Leertaste)" aria-label="Start or pause"><span id="icoPlay">▶</span></button>
-  <button id="bAuto" class="tog on hide-s" type="button" title="Auto-Scroll (A)" aria-pressed="true">Auto</button>
-  <button id="bSpeed" type="button" title="Tempo (1/2)">1x</button>
-  <button id="bSound" class="off" type="button" title="Sound (M)" aria-pressed="false" aria-label="Sound einschalten">♪</button>
-  <button id="bSkip" type="button" title="Animation überspringen (S)" aria-label="Animation überspringen">Skip</button><button id="bReplay" type="button" title="Neu starten (R)" aria-label="Replay">↻</button>
+  <span class="st" id="st" role="status" aria-live="polite">Bereit</span>
+  <button class="go" id="bTour" type="button" title="Start / Pause (Leertaste)" aria-label="Build starten oder pausieren"><span id="icoPlay">▶</span></button>
+  <button id="bAuto" class="tog on hide-s" type="button" title="Auto-Tour (A)" aria-pressed="true">Auto</button>
+  <button id="bSpeed" type="button" title="Geschwindigkeit (1/2)">1×</button>
+  <button id="bSound" class="off hide-xs" type="button" title="Soundeffekte (M)" aria-pressed="false" aria-label="Soundeffekte einschalten">SFX</button>
+  <button id="bSkip" type="button" title="Komplette Seite anzeigen (S)" aria-label="Animation überspringen">View</button><button id="bReplay" type="button" title="Replay (R)" aria-label="Build erneut abspielen">↻</button>
 </div>
 
 <dialog id="caseDialog" aria-labelledby="caseTitle">
@@ -279,6 +285,6 @@
   </div>
 </dialog>
 
-<script src="app.js?v=20261121-polish2"></script>
+<script src="app.js?v=20261121-polish3"></script>
 </body>
 </html>
