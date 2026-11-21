@@ -36,7 +36,7 @@ const ctx=canvas?.getContext?.('2d')||null;
 
 const COLORS=['#ff6b5e','#ffb02e','#ffe14d','#7dff8f','#35e0c2','#4db8ff','#8f93ff','#d07bff','#ff7ac8','#8fe1ff','#b7ff65','#ff8bb1'];
 const ROLES=['layout','type','product','systems','security','ai'];
-const AGENT_COUNT=lowPower?6:12;
+const AGENT_COUNT=coarse?5:(lowPower?6:9);
 
 let speed=1;
 let started=false;
@@ -51,12 +51,15 @@ let buildDone=0;
 let soundOn=false;
 let finaleStarted=false;
 let particles=[];
+let lastProgressAt=Date.now();
+let manualTimer=null;
+let pausedByVisibility=false;
 const builtItems=new WeakSet();
 
 if(engineCapable) root.classList.add('build-mode','locked');
 
 nAgents.textContent=AGENT_COUNT;
-hint.textContent=`${AGENT_COUNT} agents bereiten das Portfolio vor…`;
+hint.textContent=`${AGENT_COUNT} Build-Agenten setzen das Portfolio zusammen…`;
 bAuto.classList.toggle('on',auto);
 bAuto.setAttribute('aria-pressed',String(auto));
 
@@ -72,6 +75,8 @@ function setProgress(){
   nDone.textContent=buildDone;
   bar.style.width=pct+'%';
   progressTrack?.setAttribute('aria-valuenow',String(pct));
+  lastProgressAt=Date.now();
+  if(buildDone>0&&window.__portfolioFailsafe){clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null}
 }
 function updatePlayIcon(){
   icoPlay.textContent=finished?'↻':paused?'▶':'Ⅱ';
@@ -105,20 +110,23 @@ async function animate(ms,onFrame,cancel){
 function emergencyReveal(reason='fallback'){
   try{
     scrollToken++;
-    started=true;
-    finished=true;
-    paused=false;
-    touring=false;
+    started=true;finished=true;paused=false;touring=false;
     root.classList.remove('locked','build-mode');
     root.classList.add('instant','inked');
-    allItems.forEach(el=>el.classList.add('built'));
+    allItems.forEach(el=>{el.classList.add('built');builtItems.add(el)});
+    blocks.forEach(b=>{b.built=true;b.building=false});
     $$('.wire').forEach(el=>el.remove());
     boot?.classList.add('off');
-    if(scan) scan.style.opacity='0';
+    if(scan)scan.style.opacity='0';
+    if(canvas)canvas.style.display='none';
+    stage?.classList.add('settled');
     buildDone=allItems.length;
     setProgress();
-    setStatus(reason==='error'?'Fallback':'Complete');
+    history.scrollRestoration='auto';
+    bSkip.hidden=true;
+    setStatus(reason==='error'?'Fallback':reason==='stalled'?'Stabil':'Fertig');
     updatePlayIcon();
+    clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null;
   }catch{}
 }
 
@@ -332,11 +340,11 @@ async function buildBlock(block){
   block.building=true;
   setStatus('Build');
   const items=block.items.filter(x=>!builtItems.has(x)&&!x.classList.contains('built'));
-  const batchSize=lowPower?2:Math.min(5,agents.length);
+  const batchSize=lowPower?2:Math.min(3,agents.length);
   for(let i=0;i<items.length;i+=batchSize){
     while(paused)await sleep(70);
     const batch=items.slice(i,i+batchSize);
-    await Promise.all(batch.map((it,j)=>sleep(j*(lowPower?38:24)).then(()=>buildItem(it,i+j+block.index))));
+    await Promise.all(batch.map((it,j)=>sleep(j*(lowPower?34:30)).then(()=>buildItem(it,i+j+block.index))));
   }
   block.built=true;
   block.building=false;
@@ -396,25 +404,33 @@ function finishBuild(){
   root.classList.remove('locked');
   root.classList.add('inked');
   setAccent('#fff313');
-  setStatus('Complete');
+  setStatus('Fertig');
+  history.scrollRestoration='auto';
+  bSkip.hidden=true;
   updatePlayIcon();
   sfx.chord();
   runFinale();
   setTimeout(()=>stage?.classList.add('settled'),700);
 }
+
 function skipBuild(){
   scrollToken++;
   touring=false;paused=false;started=true;finished=true;
-  root.classList.remove('locked');
-  root.classList.add('inked');
+  root.classList.remove('locked','build-mode');
+  root.classList.add('instant','inked');
   allItems.forEach(el=>{el.classList.add('built');builtItems.add(el)});
   blocks.forEach(b=>{b.built=true;b.building=false});
   buildDone=allItems.length;
-  setProgress();setStatus('Complete');updatePlayIcon();
+  setProgress();setStatus('Übersprungen');
+  history.scrollRestoration='auto';
+  bSkip.hidden=true;
+  updatePlayIcon();
   boot?.classList.add('off');
   if(scan)scan.style.opacity='0';
-  $('.wire').forEach(w=>w.remove());
+  $$('.wire').forEach(w=>w.remove());
   stage?.classList.add('settled');
+  if(canvas)canvas.style.display='none';
+  clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null;
 }
 
 /* ---------- startup ---------- */
@@ -440,10 +456,13 @@ async function start(){
 }
 const handsOn=()=>{
   if(!started||finished)return;
-  manualUntil=Date.now()+1200;
-  if(touring){scrollToken++;touring=false;setStatus('Manual')}
+  manualUntil=Date.now()+1050;
+  document.body.classList.add('manual');
+  clearTimeout(manualTimer);
+  manualTimer=setTimeout(()=>document.body.classList.remove('manual'),760);
+  if(touring){scrollToken++;touring=false;setStatus('Manuell')}
   buildVisibleSequential();
-  if(auto)setTimeout(()=>{if(started&&!finished&&auto&&!touring&&Date.now()>=manualUntil)tour()},1280);
+  if(auto)setTimeout(()=>{if(started&&!finished&&auto&&!touring&&Date.now()>=manualUntil)tour()},1120);
 };
 addEventListener('wheel',handsOn,{passive:true});
 addEventListener('touchmove',handsOn,{passive:true});
@@ -484,7 +503,11 @@ function toggleSound(){
 function resetBuildState(){
   scrollToken++;
   touring=false;visibleBuilding=false;finished=false;paused=false;started=false;finaleStarted=false;
-  buildDone=0;setProgress();setStatus('Ready');
+  buildDone=0;setProgress();setStatus('Bereit');
+  history.scrollRestoration='manual';
+  bSkip.hidden=false;
+  if(canvas)canvas.style.display='';
+  stage?.classList.remove('settled');
   root.classList.add('build-mode','locked');
   root.classList.remove('instant','inked');
   stage?.classList.remove('settled');
@@ -494,7 +517,7 @@ function resetBuildState(){
   agents.forEach((a,i)=>{a.x=innerWidth/2+(i-AGENT_COUNT/2)*7;a.y=innerHeight/2+(i%3)*6;a.mode('arrow');a.render()});
   blocks.forEach(b=>{b.built=false;b.building=false});
   ctx?.clearRect(0,0,innerWidth,innerHeight);
-  if(boot){boot.classList.remove('off');hint.textContent=`${AGENT_COUNT} agents bereiten das Portfolio vor…`}
+  if(boot){boot.classList.remove('off');hint.textContent=`${AGENT_COUNT} Build-Agenten setzen das Portfolio zusammen…`}
   scrollTo(0,0);updatePlayIcon();
 }
 function replay(){resetBuildState();setTimeout(start,300)}
@@ -507,7 +530,17 @@ bSkip.addEventListener('click',skipBuild);
 bReplay.addEventListener('click',replay);
 updateSoundButton();
 
-$$('.mobile-nav-panel a').forEach(a=>a.addEventListener('click',()=>a.closest('details')?.removeAttribute('open')));
+$('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(started&&!finished)skipBuild()}));
+$('.mobile-nav-panel a').forEach(a=>a.addEventListener('click',()=>a.closest('details')?.removeAttribute('open')));
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&started&&!finished&&!paused){
+    paused=true;pausedByVisibility=true;setStatus('Pause');updatePlayIcon();
+  }else if(!document.hidden&&pausedByVisibility){
+    paused=false;pausedByVisibility=false;setStatus(auto?'Auto':'Build');updatePlayIcon();
+    if(auto&&!touring)setTimeout(tour,100);
+  }
+});
 
 addEventListener('keydown',e=>{
   if(e.metaKey||e.ctrlKey||e.altKey||/input|textarea|select/i.test(e.target?.tagName)||e.target?.isContentEditable)return;
@@ -516,6 +549,7 @@ addEventListener('keydown',e=>{
   else if(k==='r')replay();
   else if(k==='a')toggleAuto();
   else if(k==='m')toggleSound();
+  else if(k==='s')skipBuild();
   else if(k==='1')setSpeed(1);
   else if(k==='2')setSpeed(2);
 });
@@ -623,13 +657,16 @@ window.addEventListener('error',()=>setTimeout(()=>emergencyReveal('error'),0));
 window.addEventListener('unhandledrejection',()=>setTimeout(()=>emergencyReveal('error'),0));
 setTimeout(()=>{
   if(engineCapable&&!finished&&buildDone===0)emergencyReveal('fallback');
-},6500);
+},5200);
+setInterval(()=>{
+  if(engineCapable&&started&&!finished&&!paused&&Date.now()-lastProgressAt>7600)emergencyReveal('stalled');
+},2500);
 
 if(!engineCapable){
   root.classList.remove('locked','build-mode');
   root.classList.add('instant','inked');
   allItems.forEach(el=>{el.classList.add('built');builtItems.add(el)});
-  buildDone=allItems.length;setProgress();setStatus('Complete');updatePlayIcon();
+  buildDone=allItems.length;setProgress();setStatus('Fertig');bSkip.hidden=true;history.scrollRestoration='auto';updatePlayIcon();
 }else{
   updatePlayIcon();
   setTimeout(()=>{if(!started)start()},520);
