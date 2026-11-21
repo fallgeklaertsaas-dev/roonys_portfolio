@@ -32,8 +32,9 @@ kbd{font:600 10px/1 var(--body);padding:3px 5px;border-radius:5px;background:#1e
 /* build state */
 html.locked{scroll-behavior:auto}
 html.locked [data-item]{opacity:0!important;transform:translateY(4px) scale(.995)!important;filter:blur(1px)}
-[data-item]{transition:opacity .24s ease,transform .24s ease,filter .24s ease}
+html.locked [data-item].built,
 [data-item].built{opacity:1!important;transform:none!important;filter:none!important}
+[data-item]{transition:opacity .24s ease,transform .24s ease,filter .24s ease}
 [data-item="text"] .ch{opacity:.06;transition:opacity .08s ease}
 [data-item="text"] .ch.v{opacity:1}
 html.instant [data-item]{opacity:1!important;transform:none!important;filter:none!important}
