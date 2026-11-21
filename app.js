@@ -475,6 +475,25 @@ if('IntersectionObserver' in window){
   blocks.forEach(b=>observer.observe(b.el));
 }
 
+/* ---------- active nav ---------- */
+const navAnchors=$('.nav a[href^="#"],.mobile-nav-panel a[href^="#"]');
+if('IntersectionObserver' in window&&navAnchors.length){
+  const sectionLinks=new Map();
+  navAnchors.forEach(a=>{
+    const id=a.getAttribute('href')?.slice(1);
+    if(!id)return;
+    if(!sectionLinks.has(id))sectionLinks.set(id,[]);
+    sectionLinks.get(id).push(a);
+  });
+  const navObserver=new IntersectionObserver(entries=>{
+    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(!visible)return;
+    navAnchors.forEach(a=>a.classList.remove('active'));
+    (sectionLinks.get(visible.target.id)||[]).forEach(a=>a.classList.add('active'));
+  },{rootMargin:'-35% 0px -50%',threshold:[0,.2,.5,.8]});
+  sectionLinks.forEach((_,id)=>{const sec=document.getElementById(id);if(sec)navObserver.observe(sec)});
+}
+
 /* ---------- controls ---------- */
 function togglePause(){
   if(finished){replay();return}
