@@ -57,6 +57,23 @@ const updatePlayIcon=()=>{
 };
 const setAccent=c=>root.style.setProperty('--acc',c);
 
+function emergencyReveal(reason='fallback'){
+  try{
+    root.classList.remove('locked');
+    root.classList.add('instant','inked');
+    document.querySelectorAll('[data-item]').forEach(el=>el.classList.add('built'));
+    document.querySelectorAll('.wire').forEach(el=>el.remove());
+    boot?.classList.add('off');
+    scan && (scan.style.opacity='0');
+    stage && (stage.style.display='none');
+    canvas && (canvas.style.display='none');
+    hud && (hud.style.opacity='.96');
+    buildDone=allItems?.length||buildDone;
+    if(typeof setProgress==='function') setProgress();
+    if(typeof setStatus==='function') setStatus(reason==='error'?'Fallback':'Built');
+  }catch{}
+}
+
 /* ---------- lightweight sound ---------- */
 const sfx={
   ctx:null,
@@ -542,6 +559,13 @@ function runFinale(){
 addEventListener('resize',()=>{if(finaleStarted)sizeCanvas()},{passive:true});
 
 /* ---------- reduced motion / boot ---------- */
+// Safety net: if the build engine never reveals anything, never leave the visitor on a blank page.
+window.addEventListener('error',()=>setTimeout(()=>emergencyReveal('error'),0));
+window.addEventListener('unhandledrejection',()=>setTimeout(()=>emergencyReveal('error'),0));
+setTimeout(()=>{
+  if(!reduce && buildDone===0) emergencyReveal('fallback');
+},4500);
+
 if(reduce){
   root.classList.remove('locked');
   root.classList.add('instant','inked');
