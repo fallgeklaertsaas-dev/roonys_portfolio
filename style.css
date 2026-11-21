@@ -214,3 +214,149 @@ body{font-feature-settings:"kern" 1,"liga" 1;overscroll-behavior-y:none}
 
 .nav nav a.active{color:#fff;background:#17171a;box-shadow:inset 0 -1px 0 var(--acc)}
 .mobile-nav-panel a.active{color:#fff;background:#17171a}
+
+
+/* =========================================================
+   POLISH PASS 03 — motion hierarchy, mobile, readability
+   ========================================================= */
+:root{
+  --display:"Avenir Next Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+}
+
+#stage.idle{opacity:0}
+#stage:not(.idle):not(.settled){opacity:1}
+.agent{opacity:.94;transition:opacity .22s ease}
+body.manual #stage{opacity:.28}
+body.manual .wire{opacity:.18}
+body.manual .orbit,
+body.manual .t-pulse,
+body.manual .t-dash,
+body.manual .t-ring{animation-play-state:paused}
+
+/* Boot screen: clearer, quieter, no cursor clutter before the scan */
+.boot .chip{position:relative}
+.boot .chip::after{
+  content:"";
+  position:absolute;
+  inset:-9px;
+  border:1px solid rgba(255,255,255,.08);
+  border-top-color:var(--acc);
+  border-radius:19px;
+  animation:bootSpin 2.8s linear infinite;
+}
+@keyframes bootSpin{to{transform:rotate(360deg)}}
+.boot p{letter-spacing:.01em}
+
+/* Navigation */
+.desktop-nav a{position:relative}
+.desktop-nav a.active{color:#fff;background:#17171a}
+.desktop-nav a.active::after{
+  content:"";
+  position:absolute;
+  left:10px;right:10px;bottom:4px;
+  height:1px;background:var(--acc);opacity:.9
+}
+.mobile-nav summary{min-height:42px}
+.mobile-nav-panel{transform-origin:top right;animation:menuIn .16s ease both}
+@keyframes menuIn{from{opacity:0;transform:translateY(-4px) scale(.985)}to{opacity:1;transform:none}}
+
+/* Typography and section rhythm */
+.hello{letter-spacing:.02em}
+.lede{max-width:760px}
+.sec>div:first-child .sub{max-width:720px}
+.about .quote{line-height:1.5}
+.time span{line-height:1.65}
+.h{hyphens:auto;text-wrap:balance}
+.name{text-wrap:balance}
+
+/* Cards: balanced heights and calmer motion */
+.card{display:flex;flex-direction:column}
+.card .body{display:flex;flex:1;flex-direction:column}
+.card .body .case{margin-top:auto;align-self:flex-start}
+.thumb svg{transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .25s ease}
+@media(hover:hover){
+  .card:hover .thumb svg{transform:scale(1.018)}
+}
+.card p{min-height:4.9em}
+.kind{white-space:nowrap}
+.case{border-color:rgba(255,255,255,.16)}
+.case::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--acc);margin-left:7px;opacity:.75}
+
+/* Stack + roadmap interaction without visual noise */
+.row,.road{transition:background .18s ease,padding-left .18s ease,border-color .18s ease}
+@media(hover:hover){
+  .row:hover,.road:hover{background:rgba(255,255,255,.018);padding-left:8px;border-color:rgba(255,255,255,.16)}
+}
+.road em{white-space:nowrap}
+
+/* Newsletter */
+.newsletter-card{position:relative;overflow:hidden}
+.newsletter-card::before{
+  content:"";
+  position:absolute;
+  width:280px;height:280px;border-radius:50%;
+  right:-120px;top:-170px;
+  background:radial-gradient(circle,rgba(255,243,19,.09),transparent 68%);
+  pointer-events:none
+}
+.newsletter-card>*{position:relative;z-index:1}
+
+/* Footer */
+.site-footer{
+  padding:28px 0 calc(92px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);
+  color:var(--muted)
+}
+.footer-line{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:24px;
+  font-size:10px
+}
+.footer-line>span:nth-child(2){text-align:center;color:#717178}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:14px}
+.footer-links a{color:#b7b7bc;transition:color .16s ease}
+.footer-links a:hover{color:#fff}
+
+/* HUD: keep it useful without dominating the portfolio */
+.hud{transition:opacity .2s ease,transform .2s ease,border-color .2s ease}
+.hud:hover{border-color:rgba(255,255,255,.18)}
+.hud .st{font-variant-numeric:tabular-nums}
+.layer-count{font-variant-numeric:tabular-nums;color:#aaaab0}
+#bSkip{color:#e7d772;background:rgba(255,243,19,.065)}
+#bReplay{font-size:15px}
+.hud button{touch-action:manipulation}
+
+/* Dialog polish */
+dialog{scrollbar-color:#34343a #101014;scrollbar-width:thin}
+.dialog-close{transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.dialog-close:hover{background:#202025;border-color:rgba(255,255,255,.24);transform:rotate(4deg)}
+.case-grid div,.case-decision{transition:border-color .16s ease,background .16s ease}
+.case-grid div:hover,.case-decision:hover{border-color:rgba(255,255,255,.18);background:#17171b}
+
+/* Mobile */
+@media(max-width:720px){
+  .hero{gap:22px}
+  .mega{margin-top:4px}
+  .pwrap{max-width:390px}
+  .sec{padding:76px 0}
+  .card p{min-height:0}
+  .site-footer{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .footer-line{grid-template-columns:1fr;gap:8px}
+  .footer-line>span:nth-child(2){text-align:left}
+  .footer-links{justify-content:flex-start;margin-top:6px}
+  .hud{bottom:max(8px,env(safe-area-inset-bottom));padding:7px 7px 7px 9px}
+  .hud button{height:27px;min-width:27px;padding:0 7px}
+  #bSkip{font-size:9px}
+}
+@media(max-width:480px){
+  .hud .layer-count,.hud .st{display:none}
+  .hud{gap:6px}
+  .name{font-size:clamp(58px,20vw,72px)}
+  .h{font-size:clamp(42px,14vw,52px)}
+  .mobile-nav-panel{width:min(210px,calc(100vw - 32px))}
+}
+@media(prefers-reduced-motion:reduce){
+  .boot .chip::after{animation:none}
+}
