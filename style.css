@@ -211,3 +211,6 @@ body{font-feature-settings:"kern" 1,"liga" 1;overscroll-behavior-y:none}
 @media(prefers-reduced-motion:reduce){
   body{overscroll-behavior-y:auto}
 }
+
+.nav nav a.active{color:#fff;background:#17171a;box-shadow:inset 0 -1px 0 var(--acc)}
+.mobile-nav-panel a.active{color:#fff;background:#17171a}
