@@ -8,7 +8,7 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse=matchMedia('(pointer: coarse)').matches;
 const saveData=Boolean(navigator.connection?.saveData);
 const lowPower=coarse||saveData||((navigator.hardwareConcurrency||8)<=4);
-const engineCapable=!reduce&&typeof requestAnimationFrame==='function';
+const engineCapable=typeof requestAnimationFrame==='function';
 
 history.scrollRestoration='manual';
 
@@ -43,7 +43,7 @@ let speed=1;
 let started=false;
 let finished=false;
 let paused=false;
-let auto=!coarse&&!saveData;
+let auto=!coarse&&!saveData&&!reduce;
 let touring=false;
 let visibleBuilding=false;
 let manualUntil=0;
@@ -60,7 +60,7 @@ const builtItems=new WeakSet();
 if(engineCapable) root.classList.add('build-mode','locked');
 
 nAgents.textContent=AGENT_COUNT;
-hint.textContent=`${AGENT_COUNT} Build-Agenten setzen das Portfolio zusammen…`;
+hint.textContent=reduce?'Animation wird vorbereitet…':`${AGENT_COUNT} Build-Agenten setzen das Portfolio zusammen…`;
 bAuto.classList.toggle('on',auto);
 bAuto.setAttribute('aria-pressed',String(auto));
 
@@ -131,8 +131,18 @@ function emergencyReveal(reason='fallback'){
   }catch{}
 }
 
-window.addEventListener('error',()=>setTimeout(()=>emergencyReveal('error'),0));
-window.addEventListener('unhandledrejection',()=>setTimeout(()=>emergencyReveal('error'),0));
+window.addEventListener('error',event=>{
+  const source=String(event?.filename||'');
+  const message=String(event?.message||'');
+  const isPortfolioEngine=source.includes('app.js')||/portfolio|build|agent|wire|tour/i.test(message);
+  if(isPortfolioEngine&&root.classList.contains('locked'))setTimeout(()=>emergencyReveal('error'),0);
+});
+window.addEventListener('unhandledrejection',event=>{
+  const reason=String(event?.reason?.message||event?.reason||'');
+  if(root.classList.contains('locked')&&/portfolio|build|agent|wire|tour|undefined|null/i.test(reason)){
+    setTimeout(()=>emergencyReveal('error'),0);
+  }
+});
 
 /* ---------- lightweight sound ---------- */
 const sfx={
@@ -748,8 +758,8 @@ addEventListener('resize',()=>{
 
 /* ---------- fail-safes + startup ---------- */
 setTimeout(()=>{
-  if(engineCapable&&started&&!finished&&!paused&&buildDone===0)emergencyReveal('fallback');
-},5600);
+  if(engineCapable&&started&&!finished&&!paused&&buildDone===0&&boot?.classList.contains('off'))emergencyReveal('fallback');
+},9000);
 setInterval(()=>{
   if(engineCapable&&started&&!finished&&!paused&&(auto||touring||visibleBuilding)&&Date.now()-lastProgressAt>10500)emergencyReveal('stalled');
 },2500);
