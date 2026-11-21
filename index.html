@@ -198,11 +198,11 @@
     <p class="sub" data-item="text">Was angewandt wird, was aktiv vertieft wird und was noch Exploration ist.</p>
   </div>
   <div class="roadlist" data-block>
-    <div class="road" data-item="box"><b data-item="text">Cloud</b><span data-item="text">AWS, Identity, Managed Services, Deployment-Architektur</span><em data-item="box">Learning → Building</em></div>
-    <div class="road" data-item="box"><b data-item="text">Cybersecurity</b><span data-item="text">Application Security, IAM, SaaS-Security, technische Risikobewertung</span><em data-item="box">Learning</em></div>
-    <div class="road" data-item="box"><b data-item="text">AI Integration</b><span data-item="text">Dokumentenverarbeitung, Workflow-Design, APIs, Human-in-the-loop</span><em data-item="box">Building</em></div>
-    <div class="road" data-item="box"><b data-item="text">Robotics</b><span data-item="text">Software-Hardware-Integration und Automation</span><em data-item="box">Exploring</em></div>
-    <div class="road" data-item="box"><b data-item="text">OT</b><span data-item="text">Industrial Security, Netze und cyber-physische Prozesse</span><em data-item="box">Exploring</em></div>
+    <div class="road" data-item="box"><b data-item="text">Cloud</b><span data-item="text">AWS, Identity, Managed Services, Deployment-Architektur</span><em data-item="box">Lernen → Anwenden</em></div>
+    <div class="road" data-item="box"><b data-item="text">Cybersecurity</b><span data-item="text">Application Security, IAM, SaaS-Security, technische Risikobewertung</span><em data-item="box">Lernen</em></div>
+    <div class="road" data-item="box"><b data-item="text">AI Integration</b><span data-item="text">Dokumentenverarbeitung, Workflow-Design, APIs, Human-in-the-loop</span><em data-item="box">Anwenden</em></div>
+    <div class="road" data-item="box"><b data-item="text">Robotics</b><span data-item="text">Software-Hardware-Integration und Automation</span><em data-item="box">Erkunden</em></div>
+    <div class="road" data-item="box"><b data-item="text">OT</b><span data-item="text">Industrial Security, Netze und cyber-physische Prozesse</span><em data-item="box">Erkunden</em></div>
   </div>
 </section>
 
@@ -230,12 +230,24 @@
       <a class="btn" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter ↗</a>
       <a class="btn" href="https://github.com/fallgeklaertsaas-dev/roonys_portfolio" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     </div>
-    <p class="foot" data-item="text">Diese Seite wird live von mehreren Cursorn aufgebaut. <kbd>R</kbd> = Replay · <kbd>A</kbd> = Auto · <kbd>1/2</kbd> = Speed.</p>
+    <p class="foot" data-item="text">Diese Seite baut sich live auf. <kbd>R</kbd> = Neustart · <kbd>A</kbd> = Auto · <kbd>1/2</kbd> = Tempo · <kbd>M</kbd> = Sound.</p>
   </div>
 </section>
+
+<footer class="site-footer" data-block>
+  <div class="footer-line">
+    <span data-item="text">© 2026 Roony Hussein</span>
+    <span data-item="text">Wirtschaftsinformatik · Product · Tech</span>
+    <span class="footer-links" data-item="box">
+      <a href="https://www.linkedin.com/in/roony-hussein-555209369" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      <a href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter ↗</a>
+      <a href="https://github.com/fallgeklaertsaas-dev/roonys_portfolio" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    </span>
+  </div>
+</footer>
 </main>
 
-<div id="stage" aria-hidden="true"></div>
+<div id="stage" class="idle" aria-hidden="true"></div>
 <canvas id="swarm" aria-hidden="true"></canvas>
 <div class="scan" id="scan" aria-hidden="true"></div>
 
@@ -250,11 +262,11 @@
   <span><span id="nDone">0</span> / <span id="nAll">0</span> Layer</span>
   <span class="bar hide-s" id="progressTrack" role="progressbar" aria-label="Build-Fortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></span>
   <span class="st" id="st" role="status" aria-live="polite">Ready</span>
-  <button class="go" id="bTour" type="button" title="Start/Pause (Space)" aria-label="Start or pause"><span id="icoPlay">▶</span></button>
-  <button id="bAuto" class="tog on hide-s" type="button" title="Auto-scroll (A)" aria-pressed="true">Auto</button>
-  <button id="bSpeed" type="button" title="Speed (1/2)">1x</button>
+  <button class="go" id="bTour" type="button" title="Start / Pause (Leertaste)" aria-label="Start or pause"><span id="icoPlay">▶</span></button>
+  <button id="bAuto" class="tog on hide-s" type="button" title="Auto-Scroll (A)" aria-pressed="true">Auto</button>
+  <button id="bSpeed" type="button" title="Tempo (1/2)">1x</button>
   <button id="bSound" class="off" type="button" title="Sound (M)" aria-pressed="false" aria-label="Sound einschalten">♪</button>
-  <button id="bSkip" type="button" title="Animation überspringen (S)" aria-label="Animation überspringen">Skip</button><button id="bReplay" type="button" title="Replay (R)" aria-label="Replay">↻</button>
+  <button id="bSkip" type="button" title="Animation überspringen (S)" aria-label="Animation überspringen">Skip</button><button id="bReplay" type="button" title="Neu starten (R)" aria-label="Replay">↻</button>
 </div>
 
 <dialog id="caseDialog" aria-labelledby="caseTitle">
