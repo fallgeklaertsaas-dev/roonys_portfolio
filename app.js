@@ -447,7 +447,9 @@ async function brandPass(){
 }
 async function start(){
   if(started||!engineCapable)return;
-  started=true;paused=false;updatePlayIcon();setStatus('Scan');
+  started=true;paused=false;
+  if(window.__portfolioFailsafe){clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null}
+  updatePlayIcon();setStatus('Scan');
   scan.style.opacity='1';
   scan.style.transform='translateY(0)';
   await animate(610,e=>{scan.style.transform=`translateY(${innerHeight*e}px)`});
@@ -465,7 +467,9 @@ const handsOn=()=>{
   document.body.classList.add('manual');
   clearTimeout(manualTimer);
   manualTimer=setTimeout(()=>document.body.classList.remove('manual'),900);
-  if(touring){scrollToken++;touring=false;setStatus('Manuell')}
+  scrollToken++;
+  if(touring)touring=false;
+  setStatus('Manuell');
   buildVisibleSequential();
   if(auto)setTimeout(()=>{if(started&&!finished&&auto&&!touring&&Date.now()>=manualUntil)tour()},1420);
 };
@@ -493,8 +497,8 @@ if('IntersectionObserver' in window&&navAnchors.length){
   const navObserver=new IntersectionObserver(entries=>{
     const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
     if(!visible)return;
-    navAnchors.forEach(a=>a.classList.remove('active'));
-    (sectionLinks.get(visible.target.id)||[]).forEach(a=>a.classList.add('active'));
+    navAnchors.forEach(a=>{a.classList.remove('active');a.removeAttribute('aria-current')});
+    (sectionLinks.get(visible.target.id)||[]).forEach(a=>{a.classList.add('active');a.setAttribute('aria-current','location')});
   },{rootMargin:'-35% 0px -50%',threshold:[0,.2,.5,.8]});
   sectionLinks.forEach((_,id)=>{const sec=document.getElementById(id);if(sec)navObserver.observe(sec)});
 }
@@ -733,10 +737,10 @@ addEventListener('resize',()=>{
 
 /* ---------- fail-safes + startup ---------- */
 setTimeout(()=>{
-  if(engineCapable&&started&&!finished&&buildDone===0)emergencyReveal('fallback');
+  if(engineCapable&&started&&!finished&&!paused&&buildDone===0)emergencyReveal('fallback');
 },5600);
 setInterval(()=>{
-  if(engineCapable&&started&&!finished&&!paused&&Date.now()-lastProgressAt>10500)emergencyReveal('stalled');
+  if(engineCapable&&started&&!finished&&!paused&&(auto||touring||visibleBuilding)&&Date.now()-lastProgressAt>10500)emergencyReveal('stalled');
 },2500);
 
 if(!engineCapable){
