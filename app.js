@@ -582,7 +582,7 @@ function navigateDuringBuild(anchor,event){
     buildVisibleSequential();
   });
 }
-$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>navigateDuringBuild(a,e)));
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>navigateDuringBuild(a,e)));
 const mobileNav=$('.mobile-nav');
 $$('.mobile-nav-panel a').forEach(a=>a.addEventListener('click',()=>mobileNav?.removeAttribute('open')));
 document.addEventListener('pointerdown',e=>{
