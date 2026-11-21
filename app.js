@@ -36,7 +36,7 @@ const canvas=$('#swarm');
 const ctx=canvas?.getContext?.('2d')||null;
 
 const COLORS=['#ff6b5e','#ffb02e','#ffe14d','#7dff8f','#35e0c2','#4db8ff','#8f93ff','#d07bff','#ff7ac8','#8fe1ff','#b7ff65','#ff8bb1'];
-const ROLES=['layout','type','product','systems','security','ai'];
+const ROLES=['layout','text','produkt','system','security','ai'];
 const AGENT_COUNT=coarse?4:(lowPower?5:9);
 
 let speed=1;
@@ -342,7 +342,7 @@ async function buildItem(item,index){
 async function buildBlock(block){
   if(block.built||block.building)return;
   block.building=true;
-  setStatus('Build');
+  setStatus('Aufbau');
   const items=block.items.filter(x=>!builtItems.has(x)&&!x.classList.contains('built'));
   const batchSize=lowPower?2:Math.min(3,agents.length);
   for(let i=0;i<items.length;i+=batchSize){
@@ -557,7 +557,32 @@ bootSkip?.addEventListener('click',skipBuild);
 bReplay.addEventListener('click',replay);
 updateSoundButton();
 
-$$('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(started&&!finished)skipBuild()}));
+function navigateDuringBuild(anchor,event){
+  if(!started||finished)return;
+  const href=anchor.getAttribute('href')||'';
+  const id=href.startsWith('#')?href.slice(1):'';
+  const target=id?document.getElementById(id):null;
+  if(!target)return;
+  event.preventDefault();
+  auto=false;
+  bAuto.classList.remove('on');
+  bAuto.setAttribute('aria-pressed','false');
+  paused=false;
+  scrollToken++;
+  touring=false;
+  manualUntil=Date.now()+1800;
+  setStatus('Manuell');
+  updatePlayIcon();
+  const token=scrollToken;
+  const max=document.documentElement.scrollHeight-innerHeight;
+  const y=clamp(scrollY+target.getBoundingClientRect().top-18,0,Math.max(0,max));
+  smoothTo(y,560,token).then(ok=>{
+    if(!ok||token!==scrollToken)return;
+    history.replaceState(null,'','#'+id);
+    buildVisibleSequential();
+  });
+}
+$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>navigateDuringBuild(a,e)));
 const mobileNav=$('.mobile-nav');
 $$('.mobile-nav-panel a').forEach(a=>a.addEventListener('click',()=>mobileNav?.removeAttribute('open')));
 document.addEventListener('pointerdown',e=>{
@@ -591,7 +616,7 @@ addEventListener('keydown',e=>{
 /* ---------- case studies ---------- */
 const CASES={
   autpilot:{
-    kicker:'Legal-Tech SaaS · Active prototype',title:'AutPilot',
+    kicker:'Legal-Tech SaaS · Aktiver Prototyp',title:'AutPilot',
     blocks:[
       ['Problem','Fall-, Dokumenten- und Kommunikationsprozesse liegen häufig in mehreren Systemen. Das erzeugt Medienbrüche, doppelte Arbeit und fehlenden Kontext.'],
       ['Meine Rolle','Produktkonzept, Informationsarchitektur, Full-Stack-Umsetzung sowie Entscheidungen rund um Authentifizierung und Row Level Security.'],
@@ -601,7 +626,7 @@ const CASES={
     decision:'Sicherheit und Autorisierung bleiben deterministisch und serverseitig. AI darf Prozesse unterstützen, aber keine Zugriffslogik ersetzen.'
   },
   lifeos:{
-    kicker:'Productivity platform · Web',title:'Life-OS',
+    kicker:'Produktivitätsplattform · Web',title:'Life-OS',
     blocks:[
       ['Problem','Studium, Aufgaben, Notizen und Planung verteilen sich schnell auf mehrere Tools; Prioritäten und Kontext gehen beim Wechsel verloren.'],
       ['Meine Rolle','Product Design, Informationsarchitektur, Frontend-/Backend-Implementierung und laufende UX-Iteration.'],
@@ -631,7 +656,7 @@ function openCase(btn){
   if(started&&!finished){paused=true;setStatus('Detail');updatePlayIcon()}
   caseKicker.textContent=c.kicker;caseTitle.textContent=c.title;
   caseGrid.innerHTML=c.blocks.map(([h,p])=>`<div><b>${h}</b><p>${p}</p></div>`).join('');
-  caseDecision.innerHTML=`<b>Architecture / Product Decision</b><p>${c.decision}</p>`;
+  caseDecision.innerHTML=`<b>Architektur- / Produktentscheidung</b><p>${c.decision}</p>`;
   if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
   requestAnimationFrame(()=>caseClose.focus());
 }
@@ -645,7 +670,7 @@ dialog.addEventListener('close',()=>{
   lastFocus?.focus();
   if(started&&!finished&&!caseWasPaused){
     paused=false;
-    setStatus(auto?'Auto':'Build');
+    setStatus(auto?'Auto':'Aufbau');
     updatePlayIcon();
     if(auto&&!touring)setTimeout(tour,140);
     else if(!auto)buildVisibleSequential();
