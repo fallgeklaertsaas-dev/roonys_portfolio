@@ -11,6 +11,8 @@
 <meta property="og:title" content="Roony Hussein — Product & Tech Portfolio">
 <meta property="og:description" content="Wirtschaftsinformatik · SaaS · AI · Cloud · Security · Product">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fair-business.tech/">
+<link rel="canonical" href="https://www.fair-business.tech/">
 <link rel="me" href="https://www.linkedin.com/in/roony-hussein-555209369">
 <script>
 (()=>{document.documentElement.classList.add('js','locked');window.__portfolioFailsafe=setTimeout(()=>{document.documentElement.classList.remove('locked');document.documentElement.classList.add('instant');document.querySelectorAll('[data-item]').forEach(el=>el.classList.add('built'));document.getElementById('boot')?.classList.add('off');document.getElementById('stage')?.setAttribute('hidden','');},6500)})();
@@ -32,13 +34,19 @@
 <section class="hero" id="top">
   <header class="nav" data-block>
     <a class="brand" href="#top" data-item="box"><span class="logo">RH</span><span>Roony Hussein</span></a>
-    <nav aria-label="Hauptnavigation">
+    <nav class="desktop-nav" aria-label="Hauptnavigation">
       <a href="#about" data-item="text">About</a>
       <a href="#work" data-item="text">Work</a>
       <a href="#stack" data-item="text">Stack</a>
       <a href="#roadmap" data-item="text">Roadmap</a>
       <a href="#contact" data-item="text">Contact</a>
     </nav>
+    <details class="mobile-nav" data-item="box">
+      <summary aria-label="Navigation öffnen"><span>Menu</span><i aria-hidden="true">+</i></summary>
+      <div class="mobile-nav-panel">
+        <a href="#about">About</a><a href="#work">Work</a><a href="#stack">Stack</a><a href="#roadmap">Roadmap</a><a href="#newsletter">Newsletter</a><a href="#contact">Contact</a>
+      </div>
+    </details>
     <a class="avail" href="https://the-fair-business.beehiiv.com/" target="_blank" rel="noopener noreferrer" data-item="box"><i></i>The Fair Business ↗</a>
   </header>
 
@@ -233,14 +241,14 @@
 
 <div class="boot" id="boot">
   <div class="chip">RH</div>
-  <p id="hint">12 agents are assembling the portfolio…</p>
+  <p id="hint">Build-System wird initialisiert…</p>
 </div>
 
 <div class="hud" id="hud" aria-label="Build controls">
   <span class="avs" id="avs"></span>
   <span class="hide-s"><span id="nAgents">12</span> agents</span>
   <span><span id="nDone">0</span> / <span id="nAll">0</span> layers</span>
-  <span class="bar hide-s"><i id="bar"></i></span>
+  <span class="bar hide-s" id="progressTrack" role="progressbar" aria-label="Build-Fortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></span>
   <span class="st" id="st" role="status" aria-live="polite">Ready</span>
   <button class="go" id="bTour" type="button" title="Start/Pause (Space)" aria-label="Start or pause"><span id="icoPlay">▶</span></button>
   <button id="bAuto" class="tog on hide-s" type="button" title="Auto-scroll (A)" aria-pressed="true">Auto</button>
