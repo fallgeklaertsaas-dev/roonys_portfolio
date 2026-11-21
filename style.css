@@ -133,3 +133,81 @@ dialog{width:min(820px,calc(100% - 28px));max-height:calc(100svh - 28px);padding
   [data-item]{opacity:1!important;transform:none!important;filter:none!important;pointer-events:auto!important}
   .mega text{stroke-dashoffset:0!important}
 }
+
+
+/* ===== polish3: hierarchy, motion clarity, and mobile stability ===== */
+body{font-feature-settings:"kern" 1,"liga" 1;overscroll-behavior-y:none}
+.name,.h{text-wrap:balance}
+.lede,.sub,.about p{text-wrap:pretty}
+.role{flex-wrap:wrap}
+
+/* Give project cards consistent rhythm regardless of copy length. */
+.card{display:flex;flex-direction:column;min-height:100%}
+.card .body{display:flex;flex:1;flex-direction:column}
+.card .body .case{margin-top:auto;align-self:flex-start}
+.cards .card:nth-child(1) .thumb{background:radial-gradient(circle at 72% 20%,rgba(31,157,255,.08),transparent 36%),linear-gradient(145deg,#12151b,#0c0c0f)}
+.cards .card:nth-child(2) .thumb{background:radial-gradient(circle at 25% 30%,rgba(83,220,137,.075),transparent 38%),linear-gradient(145deg,#121713,#0c0d0f)}
+.cards .card:nth-child(3) .thumb{background:radial-gradient(circle at 65% 25%,rgba(143,147,255,.09),transparent 38%),linear-gradient(145deg,#15131c,#0c0c0f)}
+.row,.road,.now li{transition:background .18s ease,padding-left .18s ease,border-color .18s ease}
+@media(hover:hover){
+  .row:hover,.road:hover{background:rgba(255,255,255,.018)}
+  .road:hover{padding-left:8px;padding-right:8px}
+  .now li:hover{padding-left:6px}
+}
+
+/* Cursor tools should read as annotations, not dominate the content. */
+.agent svg{width:16px;height:20px}
+.agent label{left:12px;top:16px;padding:3px 5px;border-radius:5px;font-size:6.5px;opacity:.88;box-shadow:0 5px 14px rgba(0,0,0,.22)}
+.wire{border-color:rgba(31,157,255,.78);box-shadow:0 0 0 1px rgba(31,157,255,.055) inset}
+.wire em{color:#91cfff;background:rgba(10,14,20,.94);font-size:7px}
+
+/* More deliberate scan: visible, but not a flash. */
+.scan{height:1px;background:linear-gradient(90deg,transparent 3%,var(--sel) 18%,#c9e8ff 50%,var(--sel) 82%,transparent 97%);box-shadow:0 0 22px 4px rgba(31,157,255,.26)}
+
+/* Boot screen: compact status card with an explicit escape hatch. */
+.boot{pointer-events:auto;background:
+ radial-gradient(520px 360px at 50% 44%,rgba(31,157,255,.055),transparent 72%),
+ radial-gradient(420px 320px at 56% 58%,rgba(255,243,19,.025),transparent 72%),
+ #0a0a0b}
+.boot.off{pointer-events:none}
+.boot-card{width:min(430px,calc(100% - 32px));display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:15px;padding:16px 16px 16px 14px;border:1px solid var(--line);border-radius:16px;background:rgba(18,18,22,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 28px 90px rgba(0,0,0,.42)}
+.boot .chip{width:50px;height:50px;border-radius:12px;font-size:21px;box-shadow:none}
+.boot-copy{min-width:0}
+.boot-copy strong{display:block;font-size:12px;letter-spacing:-.01em;margin-bottom:4px}
+.boot .boot-copy p{position:static!important;margin:0!important;text-align:left!important;color:#787880!important;font-size:10px!important;line-height:1.45}
+.boot .boot-copy p::after{width:4px;height:4px;margin-left:6px}
+.boot-skip{appearance:none;border:1px solid var(--line);border-radius:999px;background:#0e0e11;color:#d6d6da;height:34px;padding:0 11px;font-size:9px;font-weight:750;cursor:pointer;white-space:nowrap;transition:background .18s,border-color .18s,color .18s,transform .18s}
+@media(hover:hover){.boot-skip:hover{background:#17171b;border-color:var(--line2);color:#fff;transform:translateY(-1px)}}
+
+/* HUD: cleaner labels and stronger primary control. */
+.hud{gap:8px;padding:7px 7px 7px 11px}
+.hud .st{min-width:66px;color:#f0f0f2;font-size:10px}
+.hud button{height:27px;min-width:27px;font-size:10px}
+.hud button.go{min-width:32px}
+.hud #bSkip{color:#ece17c;box-shadow:inset 0 0 0 1px rgba(255,243,19,.25);background:rgba(255,243,19,.045)}
+.hud #bReplay{font-size:15px}
+.layer-count{font-variant-numeric:tabular-nums}
+
+/* Footer gets enough breathing room above the HUD. */
+.site-footer{padding-bottom:84px}
+
+@media(max-width:720px){
+  .boot-card{grid-template-columns:auto 1fr;gap:12px;padding:14px}
+  .boot-skip{grid-column:1/-1;width:100%;height:38px}
+  .name{font-size:clamp(60px,20vw,78px)}
+  .role{font-size:12px}
+  .hud{bottom:max(9px,env(safe-area-inset-bottom));max-width:calc(100vw - 12px)}
+  .hud button{padding:0 7px}
+  .agent svg{width:15px;height:19px}
+}
+@media(max-width:500px){
+  .layer-count,.hide-xs{display:none!important}
+  .hud .st{min-width:54px;max-width:62px;overflow:hidden;text-overflow:ellipsis}
+  .hud button{min-width:26px;padding:0 6px}
+}
+@media(max-width:370px){
+  .hud .st{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  body{overscroll-behavior-y:auto}
+}
