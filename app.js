@@ -28,6 +28,7 @@ const bTour=$('#bTour');
 const bAuto=$('#bAuto');
 const bSpeed=$('#bSpeed');
 const bSound=$('#bSound');
+const bSkip=$('#bSkip');
 const bReplay=$('#bReplay');
 const icoPlay=$('#icoPlay');
 const canvas=$('#swarm');
@@ -399,6 +400,21 @@ function finishBuild(){
   updatePlayIcon();
   sfx.chord();
   runFinale();
+  setTimeout(()=>stage?.classList.add('settled'),700);
+}
+function skipBuild(){
+  scrollToken++;
+  touring=false;paused=false;started=true;finished=true;
+  root.classList.remove('locked');
+  root.classList.add('inked');
+  allItems.forEach(el=>{el.classList.add('built');builtItems.add(el)});
+  blocks.forEach(b=>{b.built=true;b.building=false});
+  buildDone=allItems.length;
+  setProgress();setStatus('Complete');updatePlayIcon();
+  boot?.classList.add('off');
+  if(scan)scan.style.opacity='0';
+  $('.wire').forEach(w=>w.remove());
+  stage?.classList.add('settled');
 }
 
 /* ---------- startup ---------- */
@@ -471,6 +487,7 @@ function resetBuildState(){
   buildDone=0;setProgress();setStatus('Ready');
   root.classList.add('build-mode','locked');
   root.classList.remove('instant','inked');
+  stage?.classList.remove('settled');
   setAccent('#fff313');
   allItems.forEach(el=>{builtItems.delete?.(el);el.classList.remove('built','text-sweep')});
   $$('.wire').forEach(w=>w.remove());
@@ -486,6 +503,7 @@ bTour.addEventListener('click',togglePause);
 bAuto.addEventListener('click',toggleAuto);
 bSpeed.addEventListener('click',()=>setSpeed(speed===1?2:1));
 bSound.addEventListener('click',toggleSound);
+bSkip.addEventListener('click',skipBuild);
 bReplay.addEventListener('click',replay);
 updateSoundButton();
 
