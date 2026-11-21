@@ -503,6 +503,17 @@ if('IntersectionObserver' in window&&navAnchors.length){
   sectionLinks.forEach((_,id)=>{const sec=document.getElementById(id);if(sec)navObserver.observe(sec)});
 }
 
+/* ---------- viewport motion ---------- */
+const motionTargets=[...$('.card'),$('.hero')].filter(Boolean);
+if('IntersectionObserver' in window){
+  const motionObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>entry.target.classList.toggle('motion-active',entry.isIntersecting));
+  },{rootMargin:'140px 0px 140px 0px',threshold:.02});
+  motionTargets.forEach(el=>motionObserver.observe(el));
+}else{
+  motionTargets.forEach(el=>el.classList.add('motion-active'));
+}
+
 /* ---------- controls ---------- */
 function togglePause(){
   if(finished){replay();return}
