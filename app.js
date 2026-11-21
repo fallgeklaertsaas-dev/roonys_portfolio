@@ -29,6 +29,7 @@ const bAuto=$('#bAuto');
 const bSpeed=$('#bSpeed');
 const bSound=$('#bSound');
 const bSkip=$('#bSkip');
+const bootSkip=$('#bootSkip');
 const bReplay=$('#bReplay');
 const icoPlay=$('#icoPlay');
 const canvas=$('#swarm');
@@ -36,13 +37,13 @@ const ctx=canvas?.getContext?.('2d')||null;
 
 const COLORS=['#ff6b5e','#ffb02e','#ffe14d','#7dff8f','#35e0c2','#4db8ff','#8f93ff','#d07bff','#ff7ac8','#8fe1ff','#b7ff65','#ff8bb1'];
 const ROLES=['layout','type','product','systems','security','ai'];
-const AGENT_COUNT=coarse?5:(lowPower?6:9);
+const AGENT_COUNT=coarse?4:(lowPower?5:9);
 
 let speed=1;
 let started=false;
 let finished=false;
 let paused=false;
-let auto=!coarse;
+let auto=!coarse&&!saveData;
 let touring=false;
 let visibleBuilding=false;
 let manualUntil=0;
@@ -79,13 +80,13 @@ function setProgress(){
   if(buildDone>0&&window.__portfolioFailsafe){clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null}
 }
 function updatePlayIcon(){
-  icoPlay.textContent=!started?'▶':finished?'↻':paused?'▶':'Ⅱ';
+  icoPlay.textContent=!started?'▶':finished?'↻':paused?'▶':'❚❚';
   bTour.setAttribute('aria-label',!started?'Build starten':finished?'Build erneut starten':paused?'Build fortsetzen':'Build pausieren');
 }
 function updateSoundButton(){
   bSound.classList.toggle('off',!soundOn);
   bSound.setAttribute('aria-pressed',String(soundOn));
-  bSound.setAttribute('aria-label',soundOn?'Sound ausschalten':'Sound einschalten');
+  bSound.setAttribute('aria-label',soundOn?'Soundeffekte ausschalten':'Soundeffekte einschalten');
 }
 
 async function animate(ms,onFrame,cancel){
@@ -551,11 +552,12 @@ bAuto.addEventListener('click',toggleAuto);
 bSpeed.addEventListener('click',()=>setSpeed(speed===1?2:1));
 bSound.addEventListener('click',toggleSound);
 bSkip.addEventListener('click',skipBuild);
+bootSkip?.addEventListener('click',skipBuild);
 bReplay.addEventListener('click',replay);
 updateSoundButton();
 
-$('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(started&&!finished)skipBuild()}));
-$('.mobile-nav-panel a').forEach(a=>a.addEventListener('click',()=>a.closest('details')?.removeAttribute('open')));
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(started&&!finished)skipBuild()}));
+$$('.mobile-nav-panel a').forEach(a=>a.addEventListener('click',()=>a.closest('details')?.removeAttribute('open')));
 
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&started&&!finished&&!paused){
