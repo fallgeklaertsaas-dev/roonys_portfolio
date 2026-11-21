@@ -128,10 +128,9 @@ dialog{width:min(820px,calc(100% - 28px));max-height:calc(100svh - 28px);padding
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  .agent,.wire,#swarm,.scan,.boot,.hud{display:none!important}
-  [data-item]{opacity:1!important;transform:none!important;filter:none!important;pointer-events:auto!important}
-  .mega text{stroke-dashoffset:0!important}
+  .orbit,.t-pulse,.t-dash,.t-ring{animation:none!important}
+  .mega.built text{animation-duration:.25s!important}
+  .wire,.agent,.boot,.hud{transition-duration:.08s!important}
 }
 
 
