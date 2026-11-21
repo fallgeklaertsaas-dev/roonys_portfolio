@@ -79,8 +79,8 @@ function setProgress(){
   if(buildDone>0&&window.__portfolioFailsafe){clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null}
 }
 function updatePlayIcon(){
-  icoPlay.textContent=finished?'↻':paused?'▶':'Ⅱ';
-  bTour.setAttribute('aria-label',finished?'Build erneut starten':paused?'Build fortsetzen':'Build pausieren');
+  icoPlay.textContent=!started?'▶':finished?'↻':paused?'▶':'Ⅱ';
+  bTour.setAttribute('aria-label',!started?'Build starten':finished?'Build erneut starten':paused?'Build fortsetzen':'Build pausieren');
 }
 function updateSoundButton(){
   bSound.classList.toggle('off',!soundOn);
@@ -129,6 +129,9 @@ function emergencyReveal(reason='fallback'){
     clearTimeout(window.__portfolioFailsafe);window.__portfolioFailsafe=null;
   }catch{}
 }
+
+window.addEventListener('error',()=>setTimeout(()=>emergencyReveal('error'),0));
+window.addEventListener('unhandledrejection',()=>setTimeout(()=>emergencyReveal('error'),0));
 
 /* ---------- lightweight sound ---------- */
 const sfx={
@@ -242,10 +245,10 @@ function makeWire(r){
 }
 async function drawWire(agent,el){
   const r=visibleRect(el);
-  await agent.moveTo(r.left,r.top,210);
+  await agent.moveTo(r.left,r.top,185);
   agent.mode('cross');
   const w=makeWire(r),label=w.querySelector('em');
-  await animate(clamp(130+Math.hypot(r.width,r.height)*.16,160,360),e=>{
+  await animate(clamp(120+Math.hypot(r.width,r.height)*.14,145,315),e=>{
     w.style.width=(r.width*e)+'px';
     w.style.height=(r.height*e)+'px';
     label.textContent=Math.round(r.width*e)+' × '+Math.round(r.height*e);
@@ -274,13 +277,13 @@ function splitText(el){
 }
 async function revealText(agent,el){
   const text=(el.textContent||'').trim();
-  if(text.length>92||el.querySelector('b,strong,em,a,code,kbd')){
+  if(text.length>68||el.querySelector('b,strong,em,a,code,kbd')){
     agent.mode('ibeam');
     el.classList.add('text-sweep');
     markBuilt(el);
     const r=visibleRect(el);
-    await agent.moveTo(r.left+r.width*.82,r.top+r.height*.55,150);
-    await sleep(130);
+    await agent.moveTo(r.left+r.width*.76,r.top+r.height*.55,135);
+    await sleep(105);
     return;
   }
   const {original,chars}=splitText(el);
@@ -288,7 +291,7 @@ async function revealText(agent,el){
   builtItems.add(el);
   agent.mode('ibeam');
   const total=chars.length;
-  await animate(clamp(total*5.2,110,430),(e,t)=>{
+  await animate(clamp(total*4.4,95,340),(e,t)=>{
     const upto=Math.floor(t*total);
     for(let i=0;i<upto;i++)chars[i]?.classList.add('v');
     const c=chars[Math.max(0,upto-1)];
@@ -317,20 +320,20 @@ async function buildItem(item,index){
   const agent=agents[index%agents.length];
   if(!agent){markBuilt(item);return}
   const wire=await drawWire(agent,item);
-  await sleep(30);
+  await sleep(24);
   const kind=item.dataset.item;
   if(kind==='text'){
     await revealText(agent,item);
   }else if(kind==='mega'){
     markBuilt(item);
     agent.mode('arrow');agent.click();
-    await sleep(430);
+    await sleep(360);
   }else{
     const rr=visibleRect(item);
-    await agent.moveTo(rr.left+rr.width*.52,rr.top+rr.height*.48,140);
+    await agent.moveTo(rr.left+rr.width*.52,rr.top+rr.height*.48,125);
     agent.mode('arrow');agent.click();
     markBuilt(item);
-    await sleep(45);
+    await sleep(38);
   }
   wire?.classList.add('out');
   setTimeout(()=>wire?.remove(),180);
@@ -389,11 +392,11 @@ async function tour(){
     await waitManual();
     if(!auto||token!==scrollToken)break;
     setStatus('Auto');
-    const moved=await smoothTo(targetY(block),block.index===0?300:620,token);
+    const moved=await smoothTo(targetY(block),block.index===0?360:720,token);
     if(!moved||token!==scrollToken)break;
-    await sleep(85);
+    await sleep(130);
     await buildBlock(block);
-    await sleep(block.index===0?260:110);
+    await sleep(block.index===0?320:185);
   }
   touring=false;
   if(blocks.every(b=>b.built)&&!finished)finishBuild();
@@ -446,23 +449,24 @@ async function start(){
   started=true;paused=false;updatePlayIcon();setStatus('Scan');
   scan.style.opacity='1';
   scan.style.transform='translateY(0)';
-  await animate(480,e=>{scan.style.transform=`translateY(${innerHeight*e}px)`});
+  await animate(610,e=>{scan.style.transform=`translateY(${innerHeight*e}px)`});
   scan.style.opacity='0';
   boot.classList.add('off');
-  await sleep(70);
+  stage?.classList.remove('idle','settled');
+  await sleep(105);
   await brandPass();
   if(auto) tour();
   else buildVisibleSequential();
 }
 const handsOn=()=>{
   if(!started||finished)return;
-  manualUntil=Date.now()+1050;
+  manualUntil=Date.now()+1350;
   document.body.classList.add('manual');
   clearTimeout(manualTimer);
-  manualTimer=setTimeout(()=>document.body.classList.remove('manual'),760);
+  manualTimer=setTimeout(()=>document.body.classList.remove('manual'),900);
   if(touring){scrollToken++;touring=false;setStatus('Manuell')}
   buildVisibleSequential();
-  if(auto)setTimeout(()=>{if(started&&!finished&&auto&&!touring&&Date.now()>=manualUntil)tour()},1120);
+  if(auto)setTimeout(()=>{if(started&&!finished&&auto&&!touring&&Date.now()>=manualUntil)tour()},1420);
 };
 addEventListener('wheel',handsOn,{passive:true});
 addEventListener('touchmove',handsOn,{passive:true});
@@ -527,6 +531,7 @@ function resetBuildState(){
   bSkip.hidden=false;
   if(canvas)canvas.style.display='';
   stage?.classList.remove('settled');
+  stage?.classList.add('idle');
   root.classList.add('build-mode','locked');
   root.classList.remove('instant','inked');
   stage?.classList.remove('settled');
@@ -539,7 +544,7 @@ function resetBuildState(){
   if(boot){boot.classList.remove('off');hint.textContent=`${AGENT_COUNT} Build-Agenten setzen das Portfolio zusammen…`}
   scrollTo(0,0);updatePlayIcon();
 }
-function replay(){resetBuildState();setTimeout(start,300)}
+function replay(){resetBuildState();setTimeout(start,420)}
 
 bTour.addEventListener('click',togglePause);
 bAuto.addEventListener('click',toggleAuto);
@@ -608,9 +613,13 @@ const CASES={
 };
 const dialog=$('#caseDialog'),caseTitle=$('#caseTitle'),caseKicker=$('#caseKicker'),caseGrid=$('#caseGrid'),caseDecision=$('#caseDecision'),caseClose=$('#caseClose');
 let lastFocus=null;
+let caseWasPaused=false;
 function openCase(btn){
   const c=CASES[btn.dataset.case];if(!c)return;
-  lastFocus=btn;caseKicker.textContent=c.kicker;caseTitle.textContent=c.title;
+  lastFocus=btn;
+  caseWasPaused=paused;
+  if(started&&!finished){paused=true;setStatus('Detail');updatePlayIcon()}
+  caseKicker.textContent=c.kicker;caseTitle.textContent=c.title;
   caseGrid.innerHTML=c.blocks.map(([h,p])=>`<div><b>${h}</b><p>${p}</p></div>`).join('');
   caseDecision.innerHTML=`<b>Architecture / Product Decision</b><p>${c.decision}</p>`;
   if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
@@ -622,7 +631,16 @@ function closeCase(){
 $$('[data-case]').forEach(btn=>btn.addEventListener('click',()=>openCase(btn)));
 caseClose.addEventListener('click',closeCase);
 dialog.addEventListener('click',e=>{if(e.target===dialog)closeCase()});
-dialog.addEventListener('close',()=>lastFocus?.focus());
+dialog.addEventListener('close',()=>{
+  lastFocus?.focus();
+  if(started&&!finished&&!caseWasPaused){
+    paused=false;
+    setStatus(auto?'Auto':'Build');
+    updatePlayIcon();
+    if(auto&&!touring)setTimeout(tour,140);
+    else if(!auto)buildVisibleSequential();
+  }
+});
 
 /* ---------- finale swarm ---------- */
 function sizeCanvas(){
@@ -672,13 +690,11 @@ function runFinale(){
 addEventListener('resize',()=>{if(finaleStarted)sizeCanvas()},{passive:true});
 
 /* ---------- fail-safes + startup ---------- */
-window.addEventListener('error',()=>setTimeout(()=>emergencyReveal('error'),0));
-window.addEventListener('unhandledrejection',()=>setTimeout(()=>emergencyReveal('error'),0));
 setTimeout(()=>{
   if(engineCapable&&!finished&&buildDone===0)emergencyReveal('fallback');
-},5200);
+},7000);
 setInterval(()=>{
-  if(engineCapable&&started&&!finished&&!paused&&Date.now()-lastProgressAt>7600)emergencyReveal('stalled');
+  if(engineCapable&&started&&!finished&&!paused&&Date.now()-lastProgressAt>10500)emergencyReveal('stalled');
 },2500);
 
 if(!engineCapable){
@@ -688,6 +704,6 @@ if(!engineCapable){
   buildDone=allItems.length;setProgress();setStatus('Fertig');bSkip.hidden=true;history.scrollRestoration='auto';updatePlayIcon();
 }else{
   updatePlayIcon();
-  setTimeout(()=>{if(!started)start()},520);
+  setTimeout(()=>{if(!started)start()},900);
 }
 })();
