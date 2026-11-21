@@ -329,7 +329,7 @@ async function buildItem(item,index){
 async function buildBlock(block){
   if(block.built||block.building)return;
   block.building=true;
-  setStatus(block.index<2?'Building':'Assembling');
+  setStatus('Build');
   const items=block.items.filter(x=>!builtItems.has(x)&&!x.classList.contains('built'));
   const batchSize=lowPower?2:Math.min(5,agents.length);
   for(let i=0;i<items.length;i+=batchSize){
@@ -379,7 +379,7 @@ async function tour(){
     if(block.built)continue;
     await waitManual();
     if(!auto||token!==scrollToken)break;
-    setStatus('Touring');
+    setStatus('Auto');
     const moved=await smoothTo(targetY(block),block.index===0?300:620,token);
     if(!moved||token!==scrollToken)break;
     await sleep(85);
@@ -411,7 +411,7 @@ async function brandPass(){
 }
 async function start(){
   if(started||!engineCapable)return;
-  started=true;paused=false;updatePlayIcon();setStatus('Scanning');
+  started=true;paused=false;updatePlayIcon();setStatus('Scan');
   scan.style.opacity='1';
   scan.style.transform='translateY(0)';
   await animate(480,e=>{scan.style.transform=`translateY(${innerHeight*e}px)`});
@@ -445,7 +445,7 @@ function togglePause(){
   if(finished){replay();return}
   if(!started){start();return}
   paused=!paused;
-  setStatus(paused?'Paused':touring?'Touring':'Building');
+  setStatus(paused?'Pause':touring?'Auto':'Build');
   updatePlayIcon();
   if(!paused&&auto&&!touring)setTimeout(tour,70);
 }
@@ -453,7 +453,7 @@ function toggleAuto(){
   auto=!auto;
   bAuto.classList.toggle('on',auto);
   bAuto.setAttribute('aria-pressed',String(auto));
-  setStatus(auto?'Auto on':'Auto off');
+  setStatus(auto?'Auto':'Manuell');
   if(!auto){
     scrollToken++;touring=false;buildVisibleSequential();
   }else if(started&&!finished){
