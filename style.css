@@ -360,3 +360,29 @@ dialog{scrollbar-color:#34343a #101014;scrollbar-width:thin}
 @media(prefers-reduced-motion:reduce){
   .boot .chip::after{animation:none}
 }
+
+
+/* POLISH PASS 04 — viewport motion + interaction details */
+.lede,.sub,.about p,.card p,.newsletter-card p{text-wrap:pretty}
+.btn,.case,.boot-skip,.mobile-nav summary{touch-action:manipulation}
+.mobile-nav-panel a.active,
+.mobile-nav-panel a[aria-current="location"]{background:#1a1a1e;color:#fff}
+.mobile-nav-panel a.active::before{
+  content:"";
+  display:inline-block;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--acc);
+  margin-right:8px;
+  vertical-align:1px
+}
+
+/* Pause decorative loops outside the viewport. */
+.orbit,.t-pulse,.t-dash,.t-ring{animation-play-state:paused}
+.hero.motion-active .orbit,
+.card.motion-active .t-pulse,
+.card.motion-active .t-dash,
+.card.motion-active .t-ring{animation-play-state:running}
+body.manual .hero.motion-active .orbit,
+body.manual .card.motion-active .t-pulse,
+body.manual .card.motion-active .t-dash,
+body.manual .card.motion-active .t-ring{animation-play-state:paused}
