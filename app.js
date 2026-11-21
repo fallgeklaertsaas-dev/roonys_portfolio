@@ -481,7 +481,7 @@ if('IntersectionObserver' in window){
 }
 
 /* ---------- active nav ---------- */
-const navAnchors=$('.nav a[href^="#"],.mobile-nav-panel a[href^="#"]');
+const navAnchors=$$('.nav a[href^="#"],.mobile-nav-panel a[href^="#"]');
 if('IntersectionObserver' in window&&navAnchors.length){
   const sectionLinks=new Map();
   navAnchors.forEach(a=>{
